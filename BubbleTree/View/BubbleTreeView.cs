@@ -308,8 +308,8 @@ namespace BubbleTree.View
                 bubbleButton.BorderRadius = 5;
                 bubbleButton.Command = new Command(() =>
                 {
-                    ((BubbleTreeViewModel<T>)BindingContext).SelectedItem = node.Data;
-                    OnPropertyChanged(nameof(BubbleTreeViewModel<T>.SelectedItem));
+                    ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
+                    OnPropertyChanged(nameof(BubbleTree<T>.SelectedItem));
                     Navigation.PopAsync();
                 });
             }

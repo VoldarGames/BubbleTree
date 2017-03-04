@@ -10,10 +10,22 @@ namespace BubbleTreeAppTest
     {
         public App()
         {
-            var bubbleTreeViewModel = new BubbleTreeViewModel<BubbleTreeItem>()
-            {
-                SourceItems = GetBubbleTreeItemList()
-            };
+            var bubbleTree = new BubbleTree<BubbleTreeItem>();
+
+            
+            bubbleTree
+                .BeginConfiguration()
+                    .SetSourceItems(GetBubbleTreeItemList())
+                        .BeginViewConfiguration()
+                            .SetBackgroundColor(Color.Purple)
+                            .SetTitle("Bubble Tree Title")
+                        .EndViewConfiguration()
+                .EndConfiguration();
+
+            
+                
+
+
 
             var bubbleTreeLabel = new Label
             {
@@ -22,8 +34,8 @@ namespace BubbleTreeAppTest
                 HorizontalTextAlignment = TextAlignment.Center
             };
 
-            BindingContext = bubbleTreeViewModel;
-            bubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTreeViewModel<BubbleTreeItem>.SelectedItem),BindingMode.Default,new BubbleTreeConverter());
+            BindingContext = bubbleTree;
+            bubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTree<BubbleTreeItem>.SelectedItem),BindingMode.Default,new BubbleTreeConverter());
 
 
             // The root page of your application
@@ -49,7 +61,7 @@ namespace BubbleTreeAppTest
 
             bubbleTreeLabel.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(async () => await content.Navigation.PushAsync(bubbleTreeViewModel.GetView()))
+                Command = new Command(async () => await content.Navigation.PushAsync(bubbleTree.GetView()))
             });
 
             MainPage = new NavigationPage(content);
@@ -136,7 +148,7 @@ namespace BubbleTreeAppTest
                 {
                     Description = "5.1 Internal Node",
                     ElementId = 13,
-                    ParentElementId = 4
+                    ParentElementId = 5
                 },
                 new BubbleTreeItem()
                 {
@@ -180,86 +192,7 @@ namespace BubbleTreeAppTest
                     ElementId = 21,
                     ParentElementId = 13
                 },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 22,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 23,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 24,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 25,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 26,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 27,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 28,
-                    ParentElementId = null
-                },new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 29,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 30,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 31,
-                    ParentElementId = null
-                },
-                new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 32,
-                    ParentElementId = null
-                },new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 33,
-                    ParentElementId = null
-                },new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 34,
-                    ParentElementId = null
-                },new BubbleTreeItem()
-                {
-                    Description = "Another",
-                    ElementId = 35,
-                    ParentElementId = null
-                },
+                
             };
         }
 
