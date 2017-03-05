@@ -14,6 +14,7 @@ namespace BubbleTree.View
         private StackLayout Container;
         private StackLayout SearchContainer;
         private Grid BubbleContainer;
+        private int _numberOfColumns = 3;
        
         
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -59,21 +60,21 @@ namespace BubbleTree.View
                 ToolbarItems.Remove(GoToParentToolbarItem);
                 Container.Children.Remove(BubbleContainer);
                 BubbleContainer = new Grid();
-                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), 3);
+                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), _numberOfColumns);
                 Container.Children.Add(BubbleContainer);
             }
             else if (_currentSearchFilterNode is InternalNode<T>)
             {
                 Container.Children.Remove(BubbleContainer);
                 BubbleContainer = new Grid();
-                PrepareBubbleContainer(((InternalNode<T>)_currentSearchFilterNode).Children.Count, 3, ((InternalNode<T>)_currentSearchFilterNode).Children);
+                PrepareBubbleContainer(((InternalNode<T>)_currentSearchFilterNode).Children.Count, _numberOfColumns, ((InternalNode<T>)_currentSearchFilterNode).Children);
                 Container.Children.Add(BubbleContainer);
             }
             else if (_currentSearchFilterNode is RootNode<T>)
             {
                 Container.Children.Remove(BubbleContainer);
                 BubbleContainer = new Grid();
-                PrepareBubbleContainer(((RootNode<T>)_currentSearchFilterNode).Children.Count, 3, ((RootNode<T>)_currentSearchFilterNode).Children);
+                PrepareBubbleContainer(((RootNode<T>)_currentSearchFilterNode).Children.Count, _numberOfColumns, ((RootNode<T>)_currentSearchFilterNode).Children);
                 Container.Children.Add(BubbleContainer);
             }
         }
@@ -127,7 +128,7 @@ namespace BubbleTree.View
             SearchContainer.Children.Add(SearchEntry);
 
             var rootNodesCount = BubbleNodes.RawList.OfType<RootNode<T>>().Count();
-            PrepareBubbleContainer(rootNodesCount, 3);
+            PrepareBubbleContainer(rootNodesCount, _numberOfColumns);
 
         }
 
@@ -156,7 +157,7 @@ namespace BubbleTree.View
             BubbleContainer = new Grid();
             if (SearchEntry.Text == "" && _currentSearchFilterNode == null)
             {
-                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), 3);
+                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), _numberOfColumns);
             }
             else
             {
@@ -175,7 +176,7 @@ namespace BubbleTree.View
                         node => node.Data.Description != null && node.Data.Description.ToUpper().Contains(SearchEntry.Text.ToUpper()))
                         .Take(displayLimit).Reverse();
                 }
-                PrepareBubbleContainer(searchResultNodes.Count(), 3, searchResultNodes);
+                PrepareBubbleContainer(searchResultNodes.Count(), _numberOfColumns, searchResultNodes);
             }
 
             Container.Children.Add(BubbleContainer);

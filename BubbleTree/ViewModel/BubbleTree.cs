@@ -90,6 +90,7 @@ namespace BubbleTree.ViewModel
         {
             private readonly BubbleTreeView<T> _bubbleTreeView;
             private readonly BubbleTreeConfiguration<T> _previousConfiguration;
+            private BubbleTreeSearchEntryConfiguration<T> _bubbleTreeSearchEntryConfiguration;
 
             public BubbleTreeViewConfiguration(BubbleTreeView<T> bubbleTreeView, BubbleTreeConfiguration<T> previousConfiguration)
             {
@@ -128,6 +129,40 @@ namespace BubbleTree.ViewModel
             }
 
 
+            public BubbleTreeSearchEntryConfiguration<T> BeginSearchEntryConfiguration()
+            {
+                _bubbleTreeSearchEntryConfiguration = new BubbleTreeSearchEntryConfiguration<T>(_bubbleTreeView.SearchEntry, this);
+                return _bubbleTreeSearchEntryConfiguration;
+            }
+            public class BubbleTreeSearchEntryConfiguration<T> where T : ITreeElement
+            {
+                private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
+                private readonly Entry _searchEntry;
+                public BubbleTreeSearchEntryConfiguration(Entry searchEntry, BubbleTreeViewConfiguration<T> previousConfiguration)
+                {
+                    _previousConfiguration = previousConfiguration;
+                    _searchEntry = searchEntry;
+                }
+
+                public BubbleTreeSearchEntryConfiguration<T> SetPlaceHolderColor(Color color)
+                {
+                    _searchEntry.PlaceholderColor = color;
+                    return this;
+                }
+
+                public BubbleTreeSearchEntryConfiguration<T> SetTextColor(Color color)
+                {
+                    _searchEntry.TextColor = color;
+                    return this;
+                }
+
+                public BubbleTreeViewConfiguration<T> EndSearchEntryConfiguration()
+                {
+                    return _previousConfiguration;
+                }
+            }
         }
     }
+
+    
 }

@@ -19,6 +19,10 @@ namespace BubbleTreeAppTest
                         .BeginViewConfiguration()
                             .SetBackgroundColor(Color.Purple)
                             .SetTitle("Bubble Tree Title")
+                                .BeginSearchEntryConfiguration()
+                                    .SetPlaceHolderColor(Color.Yellow)
+                                    .SetTextColor(Color.Fuchsia)
+                                .EndSearchEntryConfiguration()
                         .EndViewConfiguration()
                 .EndConfiguration();
 
