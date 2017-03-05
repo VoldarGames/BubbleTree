@@ -10,6 +10,13 @@ namespace BubbleTreeAppTest
     {
         public App()
         {
+            var bubbleTreeLabel = new Label
+            {
+                FontSize = 20,
+                HorizontalTextAlignment = TextAlignment.Center
+            };
+
+
             var bubbleTree = new BubbleTree<BubbleTreeItem>();
 
             
@@ -17,12 +24,22 @@ namespace BubbleTreeAppTest
                 .BeginConfiguration()
                     .SetSourceItems(GetBubbleTreeItemList())
                         .BeginViewConfiguration()
-                            .SetBackgroundColor(Color.Purple)
+                            .SetBackgroundColor(Color.Black)
                             .SetTitle("Bubble Tree Title")
                                 .BeginSearchEntryConfiguration()
                                     .SetPlaceHolderColor(Color.Yellow)
                                     .SetTextColor(Color.Fuchsia)
+                                    .SetBackgroundColor(Color.Orange)
+                                    .SetFontSize(12)
+                                    .SetKeyBoard(Keyboard.Numeric)
+                                    .AddCompletedDelegate((sender, args) => {bubbleTreeLabel.TextColor = Color.Lime;})
+                                    .SetSearchingOnRootPlaceholderText("Searching on whole tree")
+                                    .SetSearchingInPlaceholderText("Search inside of ")
                                 .EndSearchEntryConfiguration()
+                                .BeginGridConfiguration()
+                                    .SetColumnDisplayCount(3)
+                                    .SetBubbleDisplayLimitPerSearch(15)
+                                .EndGridConfiguration()
                         .EndViewConfiguration()
                 .EndConfiguration();
 
@@ -31,12 +48,7 @@ namespace BubbleTreeAppTest
 
 
 
-            var bubbleTreeLabel = new Label
-            {
-                TextColor = Color.White,
-                FontSize = 20,
-                HorizontalTextAlignment = TextAlignment.Center
-            };
+            
 
             BindingContext = bubbleTree;
             bubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTree<BubbleTreeItem>.SelectedItem),BindingMode.Default,new BubbleTreeConverter());
@@ -46,14 +58,12 @@ namespace BubbleTreeAppTest
             var content = new ContentPage
             {
                 Title = "BubbleTreeAppTest",
-                BackgroundColor = Color.Black,
                
                 Content = new StackLayout
                 {
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
                         new Label {
-                            TextColor = Color.White,
                             FontSize = 30,
                             HorizontalTextAlignment = TextAlignment.Center,
                             Text = "Welcome to Bubble Tree Component Test!"

@@ -1,8 +1,10 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using BubbleTreeAppTest.Droid;
+using Xamarin.Forms;
 
-
+[assembly: ExportRenderer(typeof(Xamarin.Forms.Button), typeof(GenericButtonRenderer))]
 namespace BubbleTreeAppTest.Droid
 {
     [Activity(Label = "BubbleTreeAppTest", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -19,5 +21,13 @@ namespace BubbleTreeAppTest.Droid
             LoadApplication(new App());
         }
     }
+
+    
+
+    
+        public class GenericButtonRenderer : Xamarin.Forms.Platform.Android.ButtonRenderer
+        {
+        }
+    
 }
 

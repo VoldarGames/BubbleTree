@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -68,8 +69,7 @@ namespace BubbleTree.ViewModel
 
                 _bubbleTreeViewModel._bubbleTreeView = new BubbleTreeView<T>(treeElements)
                 {
-                    BindingContext = _bubbleTreeViewModel,
-                    BackgroundColor = Color.Black,
+                    BindingContext = _bubbleTreeViewModel
                 };
                 return this;
             }
@@ -91,6 +91,7 @@ namespace BubbleTree.ViewModel
             private readonly BubbleTreeView<T> _bubbleTreeView;
             private readonly BubbleTreeConfiguration<T> _previousConfiguration;
             private BubbleTreeSearchEntryConfiguration<T> _bubbleTreeSearchEntryConfiguration;
+            private BubbleTreeGridConfiguration<T> _bubbleTreeGridConfiguration;
 
             public BubbleTreeViewConfiguration(BubbleTreeView<T> bubbleTreeView, BubbleTreeConfiguration<T> previousConfiguration)
             {
@@ -134,6 +135,13 @@ namespace BubbleTree.ViewModel
                 _bubbleTreeSearchEntryConfiguration = new BubbleTreeSearchEntryConfiguration<T>(_bubbleTreeView.SearchEntry, this);
                 return _bubbleTreeSearchEntryConfiguration;
             }
+
+            public BubbleTreeGridConfiguration<T> BeginGridConfiguration()
+            {
+                _bubbleTreeGridConfiguration = new BubbleTreeGridConfiguration<T>(_bubbleTreeView, this);
+                return _bubbleTreeGridConfiguration;
+            }
+
             public class BubbleTreeSearchEntryConfiguration<T> where T : ITreeElement
             {
                 private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
@@ -156,13 +164,87 @@ namespace BubbleTree.ViewModel
                     return this;
                 }
 
+                public BubbleTreeSearchEntryConfiguration<T> SetBackgroundColor(Color color)
+                {
+                    _searchEntry.BackgroundColor = color;
+                    return this;
+                }
+
+                public BubbleTreeSearchEntryConfiguration<T> SetFontSize(double fontSize)
+                {
+                    _searchEntry.FontSize = fontSize;
+                    return this;
+                }
+
+                
+                public BubbleTreeSearchEntryConfiguration<T> SetKeyBoard(Keyboard keyboard)
+                {
+                    _searchEntry.Keyboard = keyboard;
+                    return this;
+                }
+
+                public BubbleTreeSearchEntryConfiguration<T> AddCompletedDelegate(EventHandler completedDelegate)
+                {
+                    if (completedDelegate == null) throw new NullReferenceException("Completed Delegate must be initialized.");
+                    _searchEntry.Completed += completedDelegate;
+                    return this;
+                }
+
+                public BubbleTreeSearchEntryConfiguration<T> AddTextChangedDelegate(EventHandler textChangedDelegate)
+                {
+                    if (textChangedDelegate == null) throw new NullReferenceException("TextChanged Delegate must be initialized.");
+                    _searchEntry.Completed += textChangedDelegate;
+                    return this;
+                }
+
+                public BubbleTreeSearchEntryConfiguration<T> SetSearchingOnRootPlaceholderText(string text)
+                {
+                    _previousConfiguration._bubbleTreeView.SearchingOnRootText = text;
+                    return this;
+                }
+
+                public BubbleTreeSearchEntryConfiguration<T> SetSearchingInPlaceholderText(string text)
+                {
+                    _previousConfiguration._bubbleTreeView.SearchingInText = text;
+                    return this;
+                }
+
                 public BubbleTreeViewConfiguration<T> EndSearchEntryConfiguration()
+                {
+                    _previousConfiguration._bubbleTreeView.SearchEntry.Placeholder = _previousConfiguration._bubbleTreeView.SearchingOnRootText;
+                    return _previousConfiguration;
+                }
+            }
+            public class BubbleTreeGridConfiguration<T> where T : ITreeElement
+            {
+                private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
+                private readonly BubbleTreeView<T> _bubbleTreeView;
+                public BubbleTreeGridConfiguration(BubbleTreeView<T> bubbleTreeView, BubbleTreeViewConfiguration<T> previousConfiguration)
+                {
+                    _bubbleTreeView = bubbleTreeView;
+                    _previousConfiguration = previousConfiguration;
+                }
+
+                public BubbleTreeGridConfiguration<T> SetColumnDisplayCount(int nColumns)
+                {
+                    _bubbleTreeView.DisplayNumberOfColumns = nColumns;
+                    return this;
+                }
+
+                public BubbleTreeGridConfiguration<T> SetBubbleDisplayLimitPerSearch(int nBubbles)
+                {
+                    _bubbleTreeView.DisplayLimit = nBubbles;
+                    return this;
+                }
+
+                public BubbleTreeViewConfiguration<T> EndGridConfiguration()
                 {
                     return _previousConfiguration;
                 }
             }
+
         }
     }
 
-    
+   
 }

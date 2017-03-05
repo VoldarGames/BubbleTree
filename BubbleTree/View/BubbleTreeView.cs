@@ -14,20 +14,24 @@ namespace BubbleTree.View
         private StackLayout Container;
         private StackLayout SearchContainer;
         private Grid BubbleContainer;
-        private int _numberOfColumns = 3;
+
+        public int DisplayNumberOfColumns = 3;
+        public int DisplayLimit = 15;
+
+        public string SearchingOnRootText = "Searching on root...";
+        public string SearchingInText = "Searching in...";
        
         
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public Entry SearchEntry = new Entry()
         {
             //TODO: Style
             Text = "",
             TextColor = Color.White,
-            Placeholder = "Buscando en la raiz...",
             PlaceholderColor = Color.Silver
         };
-
+        
         public ToolbarItem GoToParentToolbarItem;
 
         public BubbleNodes<T> BubbleNodes;
@@ -45,7 +49,7 @@ namespace BubbleTree.View
                 SearchEntry.Text = "";
                 SearchEntry.TextChanged += OnTextChangedDoSearch();
 
-                SearchEntry.Placeholder = _currentSearchFilterNode != null ? $"Buscando en...{_currentSearchFilterNode.Data?.Description}" : "Buscando en la raiz...";
+                SearchEntry.Placeholder = _currentSearchFilterNode != null ? $"{SearchingInText}{_currentSearchFilterNode.Data?.Description}" : SearchingOnRootText;
                 
                 RefreshNodeFilter();
                
@@ -60,21 +64,21 @@ namespace BubbleTree.View
                 ToolbarItems.Remove(GoToParentToolbarItem);
                 Container.Children.Remove(BubbleContainer);
                 BubbleContainer = new Grid();
-                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), _numberOfColumns);
+                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), DisplayNumberOfColumns);
                 Container.Children.Add(BubbleContainer);
             }
             else if (_currentSearchFilterNode is InternalNode<T>)
             {
                 Container.Children.Remove(BubbleContainer);
                 BubbleContainer = new Grid();
-                PrepareBubbleContainer(((InternalNode<T>)_currentSearchFilterNode).Children.Count, _numberOfColumns, ((InternalNode<T>)_currentSearchFilterNode).Children);
+                PrepareBubbleContainer(((InternalNode<T>)_currentSearchFilterNode).Children.Count, DisplayNumberOfColumns, ((InternalNode<T>)_currentSearchFilterNode).Children);
                 Container.Children.Add(BubbleContainer);
             }
             else if (_currentSearchFilterNode is RootNode<T>)
             {
                 Container.Children.Remove(BubbleContainer);
                 BubbleContainer = new Grid();
-                PrepareBubbleContainer(((RootNode<T>)_currentSearchFilterNode).Children.Count, _numberOfColumns, ((RootNode<T>)_currentSearchFilterNode).Children);
+                PrepareBubbleContainer(((RootNode<T>)_currentSearchFilterNode).Children.Count, DisplayNumberOfColumns, ((RootNode<T>)_currentSearchFilterNode).Children);
                 Container.Children.Add(BubbleContainer);
             }
         }
@@ -128,7 +132,7 @@ namespace BubbleTree.View
             SearchContainer.Children.Add(SearchEntry);
 
             var rootNodesCount = BubbleNodes.RawList.OfType<RootNode<T>>().Count();
-            PrepareBubbleContainer(rootNodesCount, _numberOfColumns);
+            PrepareBubbleContainer(rootNodesCount, DisplayNumberOfColumns);
 
         }
 
@@ -136,10 +140,10 @@ namespace BubbleTree.View
         {
             return (sender, args) =>
             {
-                Interlocked.Exchange(ref cancellationTokenSource, new CancellationTokenSource()).Cancel();
-                Task.Delay(TimeSpan.FromMilliseconds(125), cancellationTokenSource.Token).ContinueWith(delegate
+                Interlocked.Exchange(ref _cancellationTokenSource, new CancellationTokenSource()).Cancel();
+                Task.Delay(TimeSpan.FromMilliseconds(125), _cancellationTokenSource.Token).ContinueWith(delegate
                 {
-                    SearchInBubbleTree(displayLimit: 15);
+                    SearchInBubbleTree(DisplayLimit);
                 },
                     CancellationToken.None,
                     TaskContinuationOptions.OnlyOnRanToCompletion,
@@ -157,7 +161,7 @@ namespace BubbleTree.View
             BubbleContainer = new Grid();
             if (SearchEntry.Text == "" && _currentSearchFilterNode == null)
             {
-                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), _numberOfColumns);
+                PrepareBubbleContainer(BubbleNodes.RawList.OfType<RootNode<T>>().Count(), DisplayNumberOfColumns);
             }
             else
             {
@@ -176,7 +180,7 @@ namespace BubbleTree.View
                         node => node.Data.Description != null && node.Data.Description.ToUpper().Contains(SearchEntry.Text.ToUpper()))
                         .Take(displayLimit).Reverse();
                 }
-                PrepareBubbleContainer(searchResultNodes.Count(), _numberOfColumns, searchResultNodes);
+                PrepareBubbleContainer(searchResultNodes.Count(), DisplayNumberOfColumns, searchResultNodes);
             }
 
             Container.Children.Add(BubbleContainer);
@@ -239,7 +243,7 @@ namespace BubbleTree.View
             {
                 BubbleContainer.Children.Add(new Bubble<RootNode<T>, T>(node, new Button()
                 {
-                    //TODO: Style
+                    Style = BubbleStyle(),
                     TextColor = Color.White,
                     FontSize = 14,
                     Text = node.Data.Description,
@@ -287,7 +291,7 @@ namespace BubbleTree.View
         {
             var bubbleButton = new Button()
             {
-                //TODO: Style
+                Style = BubbleStyle(),
                 FontSize = 14,
                 Text = node.Data.Description,
                 TextColor = Color.White,
@@ -350,6 +354,23 @@ namespace BubbleTree.View
                 await SelectionButton.ScaleTo(1.0, 150U, Easing.Linear);
             }
 
+        }
+
+        public static Style BubbleStyle()
+        {
+            var bubbleStyle = new Style(typeof(Button))
+            {
+                Setters =
+                {
+                    new Setter {Property = Button.BackgroundColorProperty, Value = Color.FromRgba(38, 80, 180,255)},
+                    new Setter {Property = Button.TextColorProperty, Value = Color.FromRgb(255, 255,255)},
+                    new Setter {Property = Button.BorderRadiusProperty, Value = 0},
+                    new Setter {Property = Button.HeightRequestProperty, Value = 42},
+
+                }
+            };
+
+            return bubbleStyle;
         }
     }
 }
