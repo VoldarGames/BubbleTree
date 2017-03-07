@@ -142,6 +142,7 @@ namespace BubbleTree.ViewModel
                 return _bubbleTreeGridConfiguration;
             }
 
+
             public class BubbleTreeSearchEntryConfiguration<T> where T : ITreeElement
             {
                 private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
