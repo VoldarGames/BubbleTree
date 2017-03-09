@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using BubbleTree.NodeTypes;
 using BubbleTree.Properties;
 using BubbleTree.View;
 using Xamarin.Forms;
@@ -82,6 +84,8 @@ namespace BubbleTree.ViewModel
 
             public BubbleTree<T> EndConfiguration()
             {
+                var rootNodesCount = _bubbleTreeViewModel._bubbleTreeView.BubbleNodes.RawList.OfType<RootNode<T>>().Count();
+                _bubbleTreeViewModel._bubbleTreeView.PrepareBubbleContainer(rootNodesCount, _bubbleTreeViewModel._bubbleTreeView.DisplayNumberOfColumns);
                 return _bubbleTreeViewModel;
             }
         }
@@ -92,6 +96,9 @@ namespace BubbleTree.ViewModel
             private readonly BubbleTreeConfiguration<T> _previousConfiguration;
             private BubbleTreeSearchEntryConfiguration<T> _bubbleTreeSearchEntryConfiguration;
             private BubbleTreeGridConfiguration<T> _bubbleTreeGridConfiguration;
+            private BubbleTreeRootNodesConfiguration<T> _bubbleTreeRootNodesConfiguration;
+            private BubbleTreeInternalNodesConfiguration<T> _bubbleTreeInternalNodesConfiguration;
+            private BubbleTreeLeafNodesConfiguration<T> _bubbleTreeLeafNodesConfiguration;
 
             public BubbleTreeViewConfiguration(BubbleTreeView<T> bubbleTreeView, BubbleTreeConfiguration<T> previousConfiguration)
             {
@@ -135,14 +142,173 @@ namespace BubbleTree.ViewModel
                 _bubbleTreeSearchEntryConfiguration = new BubbleTreeSearchEntryConfiguration<T>(_bubbleTreeView.SearchEntry, this);
                 return _bubbleTreeSearchEntryConfiguration;
             }
-
             public BubbleTreeGridConfiguration<T> BeginGridConfiguration()
             {
                 _bubbleTreeGridConfiguration = new BubbleTreeGridConfiguration<T>(_bubbleTreeView, this);
                 return _bubbleTreeGridConfiguration;
             }
+            public BubbleTreeRootNodesConfiguration<T> BeginRootNodesConfiguration()
+            {
+                _bubbleTreeRootNodesConfiguration = new BubbleTreeRootNodesConfiguration<T>(_bubbleTreeView, this);
+                return _bubbleTreeRootNodesConfiguration;
+            }
+            public BubbleTreeInternalNodesConfiguration<T> BeginInternalNodesConfiguration()
+            {
+                _bubbleTreeInternalNodesConfiguration = new BubbleTreeInternalNodesConfiguration<T>(_bubbleTreeView, this);
+                return _bubbleTreeInternalNodesConfiguration;
+            }
+            public BubbleTreeLeafNodesConfiguration<T> BeginLeafNodesConfiguration()
+            {
+                _bubbleTreeLeafNodesConfiguration = new BubbleTreeLeafNodesConfiguration<T>(_bubbleTreeView, this);
+                return _bubbleTreeLeafNodesConfiguration;
+            }
 
+            public class BubbleTreeRootNodesConfiguration<T> where T : ITreeElement
+            {
+                private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
+                private readonly BubbleTreeView<T> _bubbleTreeView;
 
+                public BubbleTreeRootNodesConfiguration(BubbleTreeView<T> bubbleTreeView,
+                    BubbleTreeViewConfiguration<T> previousConfiguration)
+                {
+                    _previousConfiguration = previousConfiguration;
+                    _bubbleTreeView = bubbleTreeView;
+                }
+
+                public BubbleTreeRootNodesConfiguration<T> SetTextColor(Color color)
+                {
+                    _bubbleTreeView.RootTextColor = color;
+                    return this;
+                }
+
+                public BubbleTreeRootNodesConfiguration<T> SetFontSize(double fontSize)
+                {
+                    _bubbleTreeView.RootFontSize = fontSize;
+                    return this;
+                }
+
+                public BubbleTreeRootNodesConfiguration<T> SetBorderColor(Color color)
+                {
+                    _bubbleTreeView.RootBorderColor = color;
+                    return this;
+                }
+
+                public BubbleTreeRootNodesConfiguration<T> SetBorderWidth(double borderWidth)
+                {
+                    _bubbleTreeView.RootBorderWidth = borderWidth;
+                    return this;
+                }
+
+                public BubbleTreeRootNodesConfiguration<T> SetBorderRadius(int borderRadius)
+                {
+                    _bubbleTreeView.RootBorderRadius = borderRadius;
+                    return this;
+                }
+
+                public BubbleTreeRootNodesConfiguration<T> SetBackgroundColor(Color color)
+                {
+                    _bubbleTreeView.RootBackgroundColor = color;
+                    return this;
+                }
+
+                public BubbleTreeViewConfiguration<T> EndRootNodesConfiguration()
+                {
+                    return _previousConfiguration;
+                }
+
+            }
+            public class BubbleTreeInternalNodesConfiguration<T> where T : ITreeElement
+            {
+                private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
+                private readonly BubbleTreeView<T> _bubbleTreeView;
+                public BubbleTreeInternalNodesConfiguration(BubbleTreeView<T> bubbleTreeView, BubbleTreeViewConfiguration<T> previousConfiguration)
+                {
+                    _previousConfiguration = previousConfiguration;
+                    _bubbleTreeView = bubbleTreeView;
+                }
+
+                public BubbleTreeInternalNodesConfiguration<T> SetTextColor(Color color)
+                {
+                    _bubbleTreeView.InternalTextColor = color;
+                    return this;
+                }
+                public BubbleTreeInternalNodesConfiguration<T> SetFontSize(double fontSize)
+                {
+                    _bubbleTreeView.InternalFontSize = fontSize;
+                    return this;
+                }
+                public BubbleTreeInternalNodesConfiguration<T> SetBorderColor(Color color)
+                {
+                    _bubbleTreeView.InternalBorderColor = color;
+                    return this;
+                }
+                public BubbleTreeInternalNodesConfiguration<T> SetBorderWidth(double borderWidth)
+                {
+                    _bubbleTreeView.InternalBorderWidth = borderWidth;
+                    return this;
+                }
+                public BubbleTreeInternalNodesConfiguration<T> SetBorderRadius(int borderRadius)
+                {
+                    _bubbleTreeView.InternalBorderRadius = borderRadius;
+                    return this;
+                }
+                public BubbleTreeInternalNodesConfiguration<T> SetBackgroundColor(Color color)
+                {
+                    _bubbleTreeView.InternalBackgroundColor = color;
+                    return this;
+                }
+
+                public BubbleTreeViewConfiguration<T> EndInternalNodesConfiguration()
+                {
+                    return _previousConfiguration;
+                }
+
+            }
+            public class BubbleTreeLeafNodesConfiguration<T> where T : ITreeElement
+            {
+                private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
+                private readonly BubbleTreeView<T> _bubbleTreeView;
+                public BubbleTreeLeafNodesConfiguration(BubbleTreeView<T> bubbleTreeView, BubbleTreeViewConfiguration<T> previousConfiguration)
+                {
+                    _previousConfiguration = previousConfiguration;
+                    _bubbleTreeView = bubbleTreeView;
+                }
+                public BubbleTreeLeafNodesConfiguration<T> SetTextColor(Color color)
+                {
+                    _bubbleTreeView.LeafTextColor = color;
+                    return this;
+                }
+                public BubbleTreeLeafNodesConfiguration<T> SetFontSize(double fontSize)
+                {
+                    _bubbleTreeView.LeafFontSize = fontSize;
+                    return this;
+                }
+                public BubbleTreeLeafNodesConfiguration<T> SetBorderColor(Color color)
+                {
+                    _bubbleTreeView.LeafBorderColor = color;
+                    return this;
+                }
+                public BubbleTreeLeafNodesConfiguration<T> SetBorderWidth(double borderWidth)
+                {
+                    _bubbleTreeView.LeafBorderWidth = borderWidth;
+                    return this;
+                }
+                public BubbleTreeLeafNodesConfiguration<T> SetBorderRadius(int borderRadius)
+                {
+                    _bubbleTreeView.LeafBorderRadius = borderRadius;
+                    return this;
+                }
+                public BubbleTreeLeafNodesConfiguration<T> SetBackgroundColor(Color color)
+                {
+                    _bubbleTreeView.LeafBackgroundColor = color;
+                    return this;
+                }
+
+                public BubbleTreeViewConfiguration<T> EndLeafNodesConfiguration()
+                {
+                    return _previousConfiguration;
+                }
+            }
             public class BubbleTreeSearchEntryConfiguration<T> where T : ITreeElement
             {
                 private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;

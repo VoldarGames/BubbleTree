@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using BubbleTree.NodeTypes;
 using BubbleTree.ViewModel;
 using Xamarin.Forms;
 
+[assembly: InternalsVisibleTo("BubbleTree")]
 namespace BubbleTree.View
 {
+
     public class BubbleTreeView<T> : ContentPage where T : ITreeElement
     {
         private StackLayout Container;
@@ -133,9 +136,10 @@ namespace BubbleTree.View
                 var scrollSpace = scrollContainer.ContentSize.Height - scrollContainer.Height - 20;
                 if (scrollSpace <= args.ScrollY)
                 {
-                    Container.Children.Add(new Label() { TextColor = Color.White, Text = "Another Element!" });
-                    Container.Children.Add(new Label() { TextColor = Color.White, Text = "Another Element2!" });
-                    Container.Children.Add(new Label() { TextColor = Color.White, Text = "Another Element3!" });
+                    //TODO: Add Scroll Pagination
+                    //Container.Children.Add(new Label() { TextColor = Color.White, Text = "Another Element!" });
+                    //Container.Children.Add(new Label() { TextColor = Color.White, Text = "Another Element2!" });
+                    //Container.Children.Add(new Label() { TextColor = Color.White, Text = "Another Element3!" });
                 }
             };
 
@@ -172,11 +176,12 @@ namespace BubbleTree.View
             Content = scrollContainer;
             SearchContainer.Children.Add(SearchEntry);
 
-            var rootNodesCount = BubbleNodes.RawList.OfType<RootNode<T>>().Count();
-            PrepareBubbleContainer(rootNodesCount, DisplayNumberOfColumns);
+            //var rootNodesCount = BubbleNodes.RawList.OfType<RootNode<T>>().Count();
+            //PrepareBubbleContainer(rootNodesCount, DisplayNumberOfColumns);
 
         }
 
+       
         private EventHandler<TextChangedEventArgs> OnTextChangedDoSearch()
         {
             return (sender, args) =>
@@ -248,8 +253,7 @@ namespace BubbleTree.View
             PopulateBubbleContainer(nRows, numberOfColums, nodes);
 
         }
-
-        private void PrepareBubbleContainer(int nodesCount, int numberOfColums)
+        internal void PrepareBubbleContainer(int nodesCount, int numberOfColums)
         {
             int nRows = (int)Math.Ceiling((float)nodesCount / numberOfColums);
             for (var i = 0; i < nRows; i++)
