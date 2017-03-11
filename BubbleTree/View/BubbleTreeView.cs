@@ -365,6 +365,8 @@ namespace BubbleTree.View
                 bubbleButton.BorderWidth = LeafBorderWidth;
                 bubbleButton.BorderRadius = LeafBorderRadius;
                 bubbleButton.BackgroundColor = LeafBackgroundColor;
+                bubbleButton.Image = new FileImageSource() {File = "leafxxl.png" };
+                bubbleButton.ContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Bottom, 0);
                 bubbleButton.Command = new Command(() =>
                 {
                     ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
