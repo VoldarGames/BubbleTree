@@ -20,6 +20,8 @@ namespace BubbleTree.ViewModel
 
         private BubbleTreeView<T> _bubbleTreeView;
 
+        private static Action _onSelectedItemChanged;
+
         private T _selectedItem;
         public T SelectedItem
         {
@@ -27,6 +29,7 @@ namespace BubbleTree.ViewModel
             set
             {
                 _selectedItem = value;
+                _onSelectedItemChanged?.Invoke();
                 OnPropertyChanged(nameof(SelectedItem));
                 OnPropertyChanged(nameof(SelectedItem.Description));
             }
@@ -86,6 +89,31 @@ namespace BubbleTree.ViewModel
             {
                 var rootNodesCount = _bubbleTreeViewModel._bubbleTreeView.BubbleNodes.RawList.OfType<RootNode<T>>().Count();
                 _bubbleTreeViewModel._bubbleTreeView.PrepareBubbleContainer(rootNodesCount, _bubbleTreeViewModel._bubbleTreeView.DisplayNumberOfColumns);
+
+                _bubbleTreeViewModel._bubbleTreeView.ToolbarItems.Add(new ToolbarItem(_bubbleTreeViewModel._bubbleTreeView.GoRootName,
+                    _bubbleTreeViewModel._bubbleTreeView.GoRootIconFile, () =>
+                    _bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode = null) { Text =
+                    _bubbleTreeViewModel._bubbleTreeView.GoRootText });
+                _bubbleTreeViewModel._bubbleTreeView.GoToParentToolbarItem = new ToolbarItem(
+                    _bubbleTreeViewModel._bubbleTreeView.GoUpName,
+                    _bubbleTreeViewModel._bubbleTreeView.GoUpIconFile, () =>
+                {
+                    if (_bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode is RootNode<T>)
+                    {
+                        _bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode = null;
+                    }
+                    if (_bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode is InternalNode<T>)
+                    {
+                        _bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode = ((InternalNode<T>)_bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode).Parent;
+                    }
+                    if (_bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode is LeafNode<T>)
+                    {
+                        _bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode = ((LeafNode<T>)_bubbleTreeViewModel._bubbleTreeView.CurrentSearchFilterNode).Parent;
+                    }
+
+                })
+                { Text = _bubbleTreeViewModel._bubbleTreeView.GoUpText };
+
                 return _bubbleTreeViewModel;
             }
         }
@@ -99,6 +127,7 @@ namespace BubbleTree.ViewModel
             private BubbleTreeRootNodesConfiguration<T> _bubbleTreeRootNodesConfiguration;
             private BubbleTreeInternalNodesConfiguration<T> _bubbleTreeInternalNodesConfiguration;
             private BubbleTreeLeafNodesConfiguration<T> _bubbleTreeLeafNodesConfiguration;
+            private BubbleTreeToolBarItemsConfiguration<T> _bubbleTreeToolBarItemsConfiguration;
 
             public BubbleTreeViewConfiguration(BubbleTreeView<T> bubbleTreeView, BubbleTreeConfiguration<T> previousConfiguration)
             {
@@ -128,6 +157,12 @@ namespace BubbleTree.ViewModel
             public BubbleTreeViewConfiguration<T> SetBackgroundImage(string backgroundImageFile)
             {
                 _bubbleTreeView.BackgroundImage = backgroundImageFile;
+                return this;
+            }
+
+            public BubbleTreeViewConfiguration<T> OnSelectedItemChanged(Action action)
+            {
+                _onSelectedItemChanged = action;
                 return this;
             }
 
@@ -162,7 +197,65 @@ namespace BubbleTree.ViewModel
                 _bubbleTreeLeafNodesConfiguration = new BubbleTreeLeafNodesConfiguration<T>(_bubbleTreeView, this);
                 return _bubbleTreeLeafNodesConfiguration;
             }
+            public BubbleTreeToolBarItemsConfiguration<T> BeginToolBarItemsConfiguration()
+            {
+                _bubbleTreeToolBarItemsConfiguration = new BubbleTreeToolBarItemsConfiguration<T>(_bubbleTreeView, this);
+                return _bubbleTreeToolBarItemsConfiguration;
+            }
+            public class BubbleTreeToolBarItemsConfiguration<T> where T : ITreeElement
+            {
+                private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
+                private readonly BubbleTreeView<T> _bubbleTreeView;
 
+
+                public BubbleTreeToolBarItemsConfiguration(BubbleTreeView<T> bubbleTreeView,
+                    BubbleTreeViewConfiguration<T> previousConfiguration)
+                {
+                    _previousConfiguration = previousConfiguration;
+                    _bubbleTreeView = bubbleTreeView;
+                }
+
+                public BubbleTreeToolBarItemsConfiguration<T> SetGoRootName(string name)
+                {
+                    _bubbleTreeView.GoRootName = name;
+                    return this;
+                }
+                public BubbleTreeToolBarItemsConfiguration<T> SetGoUpName(string name)
+                {
+                    _bubbleTreeView.GoUpName = name;
+
+                    return this;
+                }
+                public BubbleTreeToolBarItemsConfiguration<T> SetGoRootText(string text)
+                {
+                    _bubbleTreeView.GoRootText = text;
+
+                    return this;
+                }
+                public BubbleTreeToolBarItemsConfiguration<T> SetGoUpText(string text)
+                {
+                    _bubbleTreeView.GoUpText = text;
+
+                    return this;
+                }
+                public BubbleTreeToolBarItemsConfiguration<T> SetGoRootIconFile(string file)
+                {
+                    _bubbleTreeView.GoRootIconFile = file;
+
+                    return this;
+                }
+                public BubbleTreeToolBarItemsConfiguration<T> SetGoUpIconFile(string file)
+                {
+                    _bubbleTreeView.GoUpIconFile = file;
+
+                    return this;
+                }
+
+                public BubbleTreeViewConfiguration<T> EndToolBarItemsConfiguration()
+                {
+                    return _previousConfiguration;
+                }
+            }
             public class BubbleTreeRootNodesConfiguration<T> where T : ITreeElement
             {
                 private readonly BubbleTreeViewConfiguration<T> _previousConfiguration;
@@ -208,6 +301,12 @@ namespace BubbleTree.ViewModel
                 public BubbleTreeRootNodesConfiguration<T> SetBackgroundColor(Color color)
                 {
                     _bubbleTreeView.RootBackgroundColor = color;
+                    return this;
+                }
+                public BubbleTreeRootNodesConfiguration<T> SetImageConfiguration(string file, Button.ButtonContentLayout.ImagePosition imagePosition)
+                {
+                    _bubbleTreeView.RootImageSource.File = file;
+                    _bubbleTreeView.RootContentLayout = new Button.ButtonContentLayout(imagePosition, 0);
                     return this;
                 }
 
@@ -257,6 +356,12 @@ namespace BubbleTree.ViewModel
                     _bubbleTreeView.InternalBackgroundColor = color;
                     return this;
                 }
+                public BubbleTreeInternalNodesConfiguration<T> SetImageConfiguration(string file, Button.ButtonContentLayout.ImagePosition imagePosition)
+                {
+                    _bubbleTreeView.InternalImageSource.File = file;
+                    _bubbleTreeView.InternalContentLayout = new Button.ButtonContentLayout(imagePosition, 0);
+                    return this;
+                }
 
                 public BubbleTreeViewConfiguration<T> EndInternalNodesConfiguration()
                 {
@@ -303,11 +408,19 @@ namespace BubbleTree.ViewModel
                     _bubbleTreeView.LeafBackgroundColor = color;
                     return this;
                 }
+                public BubbleTreeLeafNodesConfiguration<T> SetImageConfiguration(string file, Button.ButtonContentLayout.ImagePosition imagePosition)
+                {
+                    _bubbleTreeView.LeafImageSource.File = file;
+                    _bubbleTreeView.LeafContentLayout = new Button.ButtonContentLayout(imagePosition,0);
+                    return this;
+                }
 
                 public BubbleTreeViewConfiguration<T> EndLeafNodesConfiguration()
                 {
                     return _previousConfiguration;
                 }
+
+               
             }
             public class BubbleTreeSearchEntryConfiguration<T> where T : ITreeElement
             {
@@ -410,6 +523,7 @@ namespace BubbleTree.ViewModel
                 }
             }
 
+            
         }
     }
 

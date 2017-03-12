@@ -35,6 +35,16 @@ namespace BubbleTree.View
             PlaceholderColor = Color.Silver
         };
 
+        #region ToolBarItems
+
+        public string GoRootName = "To Root";
+        public string GoUpName = "To parent";
+        public string GoRootText = "Root";
+        public string GoUpText = "Up";
+        public string GoRootIconFile = "ToRootIcon.png";
+        public string GoUpIconFile = "ToParentIcon.png";
+        #endregion
+
         #region BubbleButtonCustomizableProperties
 
         #region BubbleRootButton
@@ -45,6 +55,9 @@ namespace BubbleTree.View
         public double RootBorderWidth = 3.0;
         public int RootBorderRadius = 30;
         public Color RootBackgroundColor = Color.FromRgb(5, 5, 120);
+        public FileImageSource RootImageSource = new FileImageSource();
+        public Button.ButtonContentLayout RootContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Left, 0);
+
 
 
         #endregion
@@ -57,6 +70,9 @@ namespace BubbleTree.View
         public double InternalBorderWidth = 3.0;
         public int InternalBorderRadius = 30;
         public Color InternalBackgroundColor = Color.FromRgb(0, 35, 180);
+        public FileImageSource InternalImageSource = new FileImageSource();
+        public Button.ButtonContentLayout InternalContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Left, 0);
+
 
 
 
@@ -70,6 +86,9 @@ namespace BubbleTree.View
         public double LeafBorderWidth = 3.0;
         public int LeafBorderRadius = 5;
         public Color LeafBackgroundColor = Color.FromRgb(30, 120, 200);
+        public FileImageSource LeafImageSource= new FileImageSource();
+        public Button.ButtonContentLayout LeafContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Left, 0);
+
 
         #endregion
 
@@ -153,25 +172,6 @@ namespace BubbleTree.View
 
             BubbleNodes = NodeFactory<T>.CreateFromSource(sourceItems, node => node.Data.Description, orderDescending: true);
             SearchEntry.TextChanged += OnTextChangedDoSearch();
-
-            ToolbarItems.Add(new ToolbarItem("To Root", "ToRootIcon.png", () => CurrentSearchFilterNode = null) { Text = "Raiz" });
-            GoToParentToolbarItem = new ToolbarItem("To parent", "ToParentIcon.png", () =>
-            {
-                if (CurrentSearchFilterNode is RootNode<T>)
-                {
-                    CurrentSearchFilterNode = null;
-                }
-                if (CurrentSearchFilterNode is InternalNode<T>)
-                {
-                    CurrentSearchFilterNode = ((InternalNode<T>)CurrentSearchFilterNode).Parent;
-                }
-                if (CurrentSearchFilterNode is LeafNode<T>)
-                {
-                    CurrentSearchFilterNode = ((LeafNode<T>)CurrentSearchFilterNode).Parent;
-                }
-
-            })
-            { Text = "Subir" };
 
             Content = scrollContainer;
             SearchContainer.Children.Add(SearchEntry);
@@ -298,7 +298,9 @@ namespace BubbleTree.View
                     BorderWidth = RootBorderWidth,
                     BorderRadius = RootBorderRadius,
                     BackgroundColor = RootBackgroundColor,
-                    Command = new Command(() => CurrentSearchFilterNode = node)
+                    Image = RootImageSource,
+                    ContentLayout = RootContentLayout,
+                Command = new Command(() => CurrentSearchFilterNode = node)
                 }), columnIterator, rowIterator);
                 columnIterator++;
                 columnIterator %= numberOfColums;
@@ -346,7 +348,11 @@ namespace BubbleTree.View
                 BorderWidth = InternalBorderWidth,
                 BorderRadius = InternalBorderRadius,
                 BackgroundColor = InternalBackgroundColor,
-                Command = new Command(() => CurrentSearchFilterNode = node)
+                Image = InternalImageSource,
+                ContentLayout = InternalContentLayout,
+
+
+            Command = new Command(() => CurrentSearchFilterNode = node)
             };
             if (node is RootNode<T>)
             {
@@ -356,6 +362,10 @@ namespace BubbleTree.View
                 bubbleButton.BorderWidth = RootBorderWidth;
                 bubbleButton.BorderRadius = RootBorderRadius;
                 bubbleButton.BackgroundColor = RootBackgroundColor;
+                bubbleButton.Image = RootImageSource;
+                bubbleButton.ContentLayout = RootContentLayout;
+
+
             }
             else if (node is LeafNode<T>)
             {
@@ -365,8 +375,8 @@ namespace BubbleTree.View
                 bubbleButton.BorderWidth = LeafBorderWidth;
                 bubbleButton.BorderRadius = LeafBorderRadius;
                 bubbleButton.BackgroundColor = LeafBackgroundColor;
-                bubbleButton.Image = new FileImageSource() {File = "leafxxl.png" };
-                bubbleButton.ContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Bottom, 0);
+                bubbleButton.Image = LeafImageSource;
+                bubbleButton.ContentLayout = LeafContentLayout;
                 bubbleButton.Command = new Command(() =>
                 {
                     ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
