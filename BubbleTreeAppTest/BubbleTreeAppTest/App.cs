@@ -10,24 +10,38 @@ namespace BubbleTreeAppTest
     {
         public App()
         {
-            var bubbleTreeLabel = new Label
+
+            var defaultBubbleTreeLabel = new Label
             {
                 FontSize = 20,
                 HorizontalTextAlignment = TextAlignment.Center,
                 TextColor = Color.Red
 
             };
+            var defaultBubbleTree = new BubbleTree<BubbleTreeItem>();
+
+            defaultBubbleTree
+                .BeginConfiguration()
+                    .SetSourceItems(GetBubbleTreeItemList())
+                .EndConfiguration();
 
 
-            var bubbleTree = new BubbleTree<BubbleTreeItem>();
+            var customizedBubbleTreeLabel = new Label
+            {
+                FontSize = 20,
+                HorizontalTextAlignment = TextAlignment.Center,
+                TextColor = Color.Red
 
-            bubbleTree
+            };
+            var customizedBubbleTree = new BubbleTree<BubbleTreeItem>();
+
+            customizedBubbleTree
                 .BeginConfiguration()
                     .SetSourceItems(GetBubbleTreeItemList())
                         .BeginViewConfiguration()
                             .SetBackgroundColor(Color.FromRgb(180, 180, 130))
                             .SetTitle("Bubble Tree Title")
-                            .OnSelectedItemChanged(() => bubbleTreeLabel.TextColor = Color.Lime)
+                            .OnSelectedItemChanged(() => customizedBubbleTreeLabel.TextColor = Color.Lime)
                                 .BeginToolBarItemsConfiguration()
                                     .SetGoRootIconFile("ToRootIcon.png")
                                     .SetGoUpIconFile("ToParentIcon.png")
@@ -40,7 +54,7 @@ namespace BubbleTreeAppTest
                                     .SetBackgroundColor(Color.FromRgb(170, 170, 120))
                                     .SetFontSize(14)
                                     .SetKeyBoard(Keyboard.Text)
-                                    .AddCompletedDelegate((sender, args) => {bubbleTreeLabel.TextColor = Color.Blue;})
+                                    .AddCompletedDelegate((sender, args) => {customizedBubbleTreeLabel.TextColor = Color.Blue;})
                                     .SetSearchingOnRootPlaceholderText("Searching on whole tree")
                                     .SetSearchingInPlaceholderText("Searching inside of ")
                                 .EndSearchEntryConfiguration()
@@ -78,15 +92,18 @@ namespace BubbleTreeAppTest
                         .EndViewConfiguration()
                 .EndConfiguration();
 
-            
-                
 
 
 
-            
 
-            BindingContext = bubbleTree;
-            bubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTree<BubbleTreeItem>.SelectedItem),BindingMode.Default,new BubbleTreeConverter());
+            defaultBubbleTreeLabel.BindingContext = defaultBubbleTree;
+            defaultBubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTree<BubbleTreeItem>.SelectedItem), BindingMode.Default, new BubbleTreeConverter());
+
+
+            customizedBubbleTreeLabel.BindingContext = customizedBubbleTree;
+            customizedBubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTree<BubbleTreeItem>.SelectedItem),BindingMode.Default,new BubbleTreeConverter());
+
+           
 
 
             // The root page of your application
@@ -104,14 +121,22 @@ namespace BubbleTreeAppTest
                             Text = "Welcome to Bubble Tree Component Test!",
                             TextColor = Color.White
                         },
-                        bubbleTreeLabel
+
+                        defaultBubbleTreeLabel,
+
+                        customizedBubbleTreeLabel
                     }
                 }
             };
 
-            bubbleTreeLabel.GestureRecognizers.Add(new TapGestureRecognizer()
+            defaultBubbleTreeLabel.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(async () => await content.Navigation.PushAsync(bubbleTree.GetView()))
+                Command = new Command(async () => await content.Navigation.PushAsync(defaultBubbleTree.GetView()))
+            });
+
+            customizedBubbleTreeLabel.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () => await content.Navigation.PushAsync(customizedBubbleTree.GetView()))
             });
 
             MainPage = new NavigationPage(content);

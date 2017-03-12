@@ -31,7 +31,7 @@ namespace BubbleTree.View
         {
             //TODO: Style
             Text = "",
-            TextColor = Color.White,
+            TextColor = Color.Gray,
             PlaceholderColor = Color.Silver
         };
 
@@ -172,6 +172,7 @@ namespace BubbleTree.View
 
             BubbleNodes = NodeFactory<T>.CreateFromSource(sourceItems, node => node.Data.Description, orderDescending: true);
             SearchEntry.TextChanged += OnTextChangedDoSearch();
+            SearchEntry.Placeholder = SearchingOnRootText;
 
             Content = scrollContainer;
             SearchContainer.Children.Add(SearchEntry);
