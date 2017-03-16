@@ -29,7 +29,7 @@ First you need to have a class that implements ITreeElement interface.
   ```
   
   #### ElementId is the primary key.
-  #### ParentElementId is the primary key of its parent. 
+  #### ParentElementId is the primary key of its parent.  (null is it is a root element)
   #### Description is the text shown on bubbles.
 Next, create a source list from scratch or from a typically database tree representation.
 
