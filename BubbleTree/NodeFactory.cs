@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BubbleTree.NodeTypes;
+using BubbleTreeComponent.NodeTypes;
 
-namespace BubbleTree
+namespace BubbleTreeComponent
 {
     public static class NodeFactory<T> where T : ITreeElement
     {

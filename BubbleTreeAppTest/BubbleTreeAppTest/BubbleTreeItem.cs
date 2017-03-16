@@ -1,4 +1,4 @@
-﻿using BubbleTree;
+﻿using BubbleTreeComponent;
 
 namespace BubbleTreeAppTest
 {

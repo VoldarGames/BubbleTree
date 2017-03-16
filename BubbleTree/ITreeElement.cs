@@ -1,4 +1,4 @@
-﻿namespace BubbleTree
+﻿namespace BubbleTreeComponent
 {
     public interface ITreeElement
     {

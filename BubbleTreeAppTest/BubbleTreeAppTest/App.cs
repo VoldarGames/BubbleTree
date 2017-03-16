@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using BubbleTree.ViewModel;
+using BubbleTreeComponent.ViewModel;
 using Xamarin.Forms;
 
 namespace BubbleTreeAppTest
@@ -64,7 +64,7 @@ namespace BubbleTreeAppTest
                                 .EndGridConfiguration()
                                 .BeginRootNodesConfiguration()
                                     .SetTextColor(Color.White)
-                                    .SetFontSize(15)
+                                    .SetFontSize(14)
                                     .SetBorderColor(Color.FromRgb(120, 0, 0))
                                     .SetBorderWidth(3)
                                     .SetBorderRadius(50)
@@ -73,7 +73,7 @@ namespace BubbleTreeAppTest
                                 .EndRootNodesConfiguration()
                                 .BeginInternalNodesConfiguration()
                                     .SetTextColor(Color.White)
-                                    .SetFontSize(15)
+                                    .SetFontSize(13)
                                     .SetBorderColor(Color.FromRgb(0, 120, 0))
                                     .SetBorderWidth(3)
                                     .SetBorderRadius(30)
@@ -82,7 +82,7 @@ namespace BubbleTreeAppTest
                                 .EndInternalNodesConfiguration()
                                 .BeginLeafNodesConfiguration()
                                     .SetTextColor(Color.White)
-                                    .SetFontSize(14)
+                                    .SetFontSize(12)
                                     .SetBorderColor(Color.FromRgb(0, 0, 120))
                                     .SetBorderWidth(3)
                                     .SetBorderRadius(5)

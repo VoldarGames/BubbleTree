@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BubbleTree.NodeTypes;
+using BubbleTreeComponent.NodeTypes;
 
-namespace BubbleTree
+namespace BubbleTreeComponent
 {
     public class BubbleNodes<T> : List<BaseNode<T>> where T : ITreeElement
     {

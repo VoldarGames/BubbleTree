@@ -59,9 +59,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BubbleTree\BubbleTree.csproj">
+    <ProjectReference Include="..\..\BubbleTree\BubbleTreeComponent.csproj">
       <Project>{7F990A64-36A7-4E26-B074-5DD6FD81A134}</Project>
-      <Name>BubbleTree</Name>
+      <Name>BubbleTreeComponent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTreeAppTest", "Bubble
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTreeAppTest.Droid", "BubbleTreeAppTest\BubbleTreeAppTest.Droid\BubbleTreeAppTest.Droid.csproj", "{8D6EF4AC-78FE-4987-8D80-33FB2B38B0F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTree", "BubbleTree\BubbleTree.csproj", "{7F990A64-36A7-4E26-B074-5DD6FD81A134}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTreeComponent", "BubbleTree\BubbleTreeComponent.csproj", "{7F990A64-36A7-4E26-B074-5DD6FD81A134}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

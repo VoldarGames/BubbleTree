@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using BubbleTree.NodeTypes;
-using BubbleTree.Properties;
-using BubbleTree.View;
+using BubbleTreeComponent.Exceptions;
+using BubbleTreeComponent.NodeTypes;
+using BubbleTreeComponent.Properties;
+using BubbleTreeComponent.View;
 using Xamarin.Forms;
 
-namespace BubbleTree.ViewModel
+namespace BubbleTreeComponent.ViewModel
 {
     /// <summary>
     /// BubbleTree ViewModel

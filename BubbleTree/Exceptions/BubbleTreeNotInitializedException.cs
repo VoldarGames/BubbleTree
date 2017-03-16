@@ -1,6 +1,6 @@
 using System;
 
-namespace BubbleTree.ViewModel
+namespace BubbleTreeComponent.Exceptions
 {
     public class BubbleTreeNotInitializedException : Exception
     {

@@ -1,4 +1,4 @@
-﻿namespace BubbleTree.NodeTypes
+﻿namespace BubbleTreeComponent.NodeTypes
 {
     public class BaseNode<T>
     {

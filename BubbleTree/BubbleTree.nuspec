@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>BubbleTree</id>
+    <version>1.0.0</version>
+    <title>BubbleTree</title>
+    <authors>Daniel Garcia Sanchez</authors>
+    <owners>Daniel Garcia Sanchez</owners>
+    <licenseUrl>https://github.com/VoldarGames/BubbleTree/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/VoldarGames/BubbleTree</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/VoldarGames/BubbleTree/master/BubbleTreeIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Xamarin Forms BubbleTree Component</description>
+    <releaseNotes>Release notes on project Url.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Xamarin Forms Component Tree TreeView UI</tags>
+  </metadata>
+</package>

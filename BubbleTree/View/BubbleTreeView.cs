@@ -4,12 +4,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using BubbleTree.NodeTypes;
-using BubbleTree.ViewModel;
+using BubbleTreeComponent.NodeTypes;
+using BubbleTreeComponent.ViewModel;
 using Xamarin.Forms;
 
 [assembly: InternalsVisibleTo("BubbleTree")]
-namespace BubbleTree.View
+namespace BubbleTreeComponent.View
 {
 
     public class BubbleTreeView<T> : ContentPage where T : ITreeElement
@@ -50,7 +50,7 @@ namespace BubbleTree.View
         #region BubbleRootButton
 
         public Color RootTextColor = Color.White;
-        public double RootFontSize = 14;
+        public double RootFontSize = 12;
         public Color RootBorderColor = Color.Navy;
         public double RootBorderWidth = 3.0;
         public int RootBorderRadius = 30;
@@ -65,7 +65,7 @@ namespace BubbleTree.View
         #region BubbleInternalButton
 
         public Color InternalTextColor = Color.White;
-        public double InternalFontSize = 14;
+        public double InternalFontSize = 12;
         public Color InternalBorderColor = Color.Navy;
         public double InternalBorderWidth = 3.0;
         public int InternalBorderRadius = 30;
@@ -81,7 +81,7 @@ namespace BubbleTree.View
         #region BubbleLeafButton
 
         public Color LeafTextColor = Color.White;
-        public double LeafFontSize = 14;
+        public double LeafFontSize = 12;
         public Color LeafBorderColor = Color.Navy;
         public double LeafBorderWidth = 3.0;
         public int LeafBorderRadius = 5;
