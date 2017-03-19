@@ -36,6 +36,10 @@ namespace BubbleTreeComponent.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets a view with BubbleTree Component. Example of use: YourContentPage.Navigation.PushAsync(YourBubbleTree.GetView())).
+        /// </summary>
+        /// <returns></returns>
         public BubbleTreeView<T> GetView()
         {
             return _bubbleTreeView;
@@ -54,6 +58,10 @@ namespace BubbleTreeComponent.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Starts guided configuration of this bubble tree.
+        /// </summary>
+        /// <returns></returns>
         public BubbleTreeConfiguration<T> BeginConfiguration()
         {
             _bubbleTreeConfiguration = new BubbleTreeConfiguration<T>(this);
@@ -69,6 +77,12 @@ namespace BubbleTreeComponent.ViewModel
             {
                 _bubbleTreeViewModel = bubbleTreeViewModel;
             }
+            /// <summary>
+            /// Sets tree elements to show in bubble tree component.
+            /// This configuration is mandatory.
+            /// </summary>
+            /// <param name="treeElements">A list of ITreeElement</param>
+            /// <returns></returns>
             public BubbleTreeConfiguration<T> SetSourceItems(List<T> treeElements)
             {
                 _bubbleTreeViewModel.SourceItems = treeElements;
@@ -80,6 +94,10 @@ namespace BubbleTreeComponent.ViewModel
                 return this;
             }
 
+            /// <summary>
+            /// Starts configuration of component style customization.
+            /// </summary>
+            /// <returns></returns>
             public BubbleTreeViewConfiguration<T> BeginViewConfiguration()
             {
                 _bubbleTreeViewConfiguration = new BubbleTreeViewConfiguration<T>(_bubbleTreeViewModel._bubbleTreeView, this);
@@ -172,32 +190,55 @@ namespace BubbleTreeComponent.ViewModel
                 return _previousConfiguration;
             }
 
-
+            /// <summary>
+            /// Starts configuration of top search entry inside component.
+            /// </summary>
+            /// <returns></returns>
             public BubbleTreeSearchEntryConfiguration<T> BeginSearchEntryConfiguration()
             {
                 _bubbleTreeSearchEntryConfiguration = new BubbleTreeSearchEntryConfiguration<T>(_bubbleTreeView.SearchEntry, this);
                 return _bubbleTreeSearchEntryConfiguration;
             }
+            /// <summary>
+            /// Starts configuration of Grid display options.
+            /// </summary>
+            /// <returns></returns>
             public BubbleTreeGridConfiguration<T> BeginGridConfiguration()
             {
                 _bubbleTreeGridConfiguration = new BubbleTreeGridConfiguration<T>(_bubbleTreeView, this);
                 return _bubbleTreeGridConfiguration;
             }
+            /// <summary>
+            /// Starts configuration of nodes marked as root. (ParentElementId = null)
+            /// </summary>
+            /// <returns></returns>
             public BubbleTreeRootNodesConfiguration<T> BeginRootNodesConfiguration()
             {
                 _bubbleTreeRootNodesConfiguration = new BubbleTreeRootNodesConfiguration<T>(_bubbleTreeView, this);
                 return _bubbleTreeRootNodesConfiguration;
             }
+            /// <summary>
+            /// Starts configuration of nodes marked as internal. (ParentElementId != null and having children)
+            /// </summary>
+            /// <returns></returns>
             public BubbleTreeInternalNodesConfiguration<T> BeginInternalNodesConfiguration()
             {
                 _bubbleTreeInternalNodesConfiguration = new BubbleTreeInternalNodesConfiguration<T>(_bubbleTreeView, this);
                 return _bubbleTreeInternalNodesConfiguration;
             }
+            /// <summary>
+            /// Starts configuration of nodes marked as leaf. (ParentElementId != null and not having children)
+            /// </summary>
+            /// <returns></returns>
             public BubbleTreeLeafNodesConfiguration<T> BeginLeafNodesConfiguration()
             {
                 _bubbleTreeLeafNodesConfiguration = new BubbleTreeLeafNodesConfiguration<T>(_bubbleTreeView, this);
                 return _bubbleTreeLeafNodesConfiguration;
             }
+            /// <summary>
+            /// Starts configuration of toolbaritems inside component view.
+            /// </summary>
+            /// <returns></returns>
             public BubbleTreeToolBarItemsConfiguration<T> BeginToolBarItemsConfiguration()
             {
                 _bubbleTreeToolBarItemsConfiguration = new BubbleTreeToolBarItemsConfiguration<T>(_bubbleTreeView, this);
