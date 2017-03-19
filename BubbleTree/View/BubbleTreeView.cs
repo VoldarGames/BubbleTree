@@ -24,6 +24,19 @@ namespace BubbleTreeComponent.View
         public string SearchingOnRootText = "Searching on root...";
         public string SearchingInText = "Searching in...";
 
+        private bool _selectionModeEnabled;
+
+        private bool SelectionModeEnabled
+        {
+            get { return _selectionModeEnabled; }
+            set
+            {
+                _selectionModeEnabled = value;
+                ToolBarItemSelectionMode.Text = (value) ? "Selection Mode" : "Navigation Mode";
+            }
+        }
+
+
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
@@ -36,6 +49,10 @@ namespace BubbleTreeComponent.View
         };
 
         #region ToolBarItems
+
+        public ToolbarItem ToolBarItemSelectionMode { get; set; }
+
+
 
         public string GoRootName = "To Root";
         public string GoUpName = "To parent";
@@ -148,6 +165,13 @@ namespace BubbleTreeComponent.View
 
         public BubbleTreeView(List<T> sourceItems)
         {
+            ToolBarItemSelectionMode = new ToolbarItem("Navigation Mode", "", () =>
+            {
+                SelectionModeEnabled = !SelectionModeEnabled;
+            }, ToolbarItemOrder.Primary);
+
+            ToolbarItems.Add(ToolBarItemSelectionMode);
+
             var scrollContainer = new ScrollView();
 
             scrollContainer.Scrolled += (sender, args) =>
@@ -181,8 +205,10 @@ namespace BubbleTreeComponent.View
             //PrepareBubbleContainer(rootNodesCount, DisplayNumberOfColumns);
 
         }
+        
+        
 
-       
+
         private EventHandler<TextChangedEventArgs> OnTextChangedDoSearch()
         {
             return (sender, args) =>
@@ -301,7 +327,19 @@ namespace BubbleTreeComponent.View
                     BackgroundColor = RootBackgroundColor,
                     Image = RootImageSource,
                     ContentLayout = RootContentLayout,
-                Command = new Command(() => CurrentSearchFilterNode = node)
+                Command = new Command(() =>
+                {
+                    if (!SelectionModeEnabled)
+                    {
+                        CurrentSearchFilterNode = node;
+                    }
+                    else
+                    {
+                        ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
+                        OnPropertyChanged(nameof(BubbleTree<T>.SelectedItem));
+                        Navigation.PopAsync();
+                    }
+                })
                 }), columnIterator, rowIterator);
                 columnIterator++;
                 columnIterator %= numberOfColums;
@@ -353,7 +391,19 @@ namespace BubbleTreeComponent.View
                 ContentLayout = InternalContentLayout,
 
 
-            Command = new Command(() => CurrentSearchFilterNode = node)
+            Command = new Command(() =>
+            {
+                if (!SelectionModeEnabled)
+                {
+                    CurrentSearchFilterNode = node;
+                }
+                else
+                {
+                    ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
+                    OnPropertyChanged(nameof(BubbleTree<T>.SelectedItem));
+                    Navigation.PopAsync();
+                }
+            })
             };
             if (node is RootNode<T>)
             {
@@ -390,6 +440,7 @@ namespace BubbleTreeComponent.View
             return true;
 
         }
+
 
         internal class Bubble<TNode, TEntity> : StackLayout where TNode : BaseNode<TEntity> where TEntity : ITreeElement
         {
