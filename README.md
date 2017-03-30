@@ -2,7 +2,9 @@
 # BubbleTree
 
 Xamarin Forms Tree View Component 
+
 Created and written by Dani Garcia Sanchez (https://www.linkedin.com/in/dani-garcia-sanchez-30b684138)
+
 ## Introduction
 
 BubbleTree helps XamarinForms programmers to represent 'Tree Structures' in mobile apps with a new component.
