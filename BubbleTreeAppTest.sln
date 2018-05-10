@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTreeAppTest", "BubbleTreeAppTest\BubbleTreeAppTest\BubbleTreeAppTest.csproj", "{B380D8CE-20A8-45FC-B1E5-58E473A9CCDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTreeAppTest.Droid", "BubbleTreeAppTest\BubbleTreeAppTest.Droid\BubbleTreeAppTest.Droid.csproj", "{8D6EF4AC-78FE-4987-8D80-33FB2B38B0F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTreeAppTest.Android", "BubbleTreeAppTest\BubbleTreeAppTest.Droid\BubbleTreeAppTest.Android.csproj", "{8D6EF4AC-78FE-4987-8D80-33FB2B38B0F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleTreeComponent", "BubbleTree\BubbleTreeComponent.csproj", "{7F990A64-36A7-4E26-B074-5DD6FD81A134}"
 EndProject

@@ -10,7 +10,6 @@ namespace BubbleTreeAppTest
     {
         public App()
         {
-
             var defaultBubbleTreeLabel = new Label
             {
                 FontSize = 20,
@@ -54,7 +53,7 @@ namespace BubbleTreeAppTest
                                     .SetBackgroundColor(Color.FromRgb(170, 170, 120))
                                     .SetFontSize(14)
                                     .SetKeyBoard(Keyboard.Text)
-                                    .AddCompletedDelegate((sender, args) => {customizedBubbleTreeLabel.TextColor = Color.Blue;})
+                                    .AddCompletedDelegate((sender, args) => { customizedBubbleTreeLabel.TextColor = Color.Blue; })
                                     .SetSearchingOnRootPlaceholderText("Searching on whole tree")
                                     .SetSearchingInPlaceholderText("Searching inside of ")
                                 .EndSearchEntryConfiguration()
@@ -101,16 +100,16 @@ namespace BubbleTreeAppTest
 
 
             customizedBubbleTreeLabel.BindingContext = customizedBubbleTree;
-            customizedBubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTree<BubbleTreeItem>.SelectedItem),BindingMode.Default,new BubbleTreeConverter());
+            customizedBubbleTreeLabel.SetBinding(Label.TextProperty, nameof(BubbleTree<BubbleTreeItem>.SelectedItem), BindingMode.Default, new BubbleTreeConverter());
 
-           
+
 
 
             // The root page of your application
             var content = new ContentPage
             {
                 Title = "BubbleTreeAppTest",
-               BackgroundColor = Color.Black,
+                BackgroundColor = Color.Black,
                 Content = new StackLayout
                 {
                     VerticalOptions = LayoutOptions.Center,
@@ -140,7 +139,7 @@ namespace BubbleTreeAppTest
             });
 
             MainPage = new NavigationPage(content);
-            
+
         }
 
         private List<BubbleTreeItem> GetBubbleTreeItemList()
@@ -267,7 +266,7 @@ namespace BubbleTreeAppTest
                     ElementId = 21,
                     ParentElementId = 13
                 },
-                
+
             };
         }
 
@@ -292,7 +291,7 @@ namespace BubbleTreeAppTest
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return "Click here to select an item on a bubble tree component!";
-            return ((BubbleTreeItem) value).Description;
+            return ((BubbleTreeItem)value).Description;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

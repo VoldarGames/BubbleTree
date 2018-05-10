@@ -1,33 +1,32 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using BubbleTreeAppTest.Droid;
+using BubbleTreeAppTest.Android;
 using Xamarin.Forms;
+using Android.Content;
+using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(Xamarin.Forms.Button), typeof(GenericButtonRenderer))]
-namespace BubbleTreeAppTest.Droid
+[assembly: ExportRenderer(typeof(Button), typeof(GenericButtonRenderer))]
+namespace BubbleTreeAppTest.Android
 {
     [Activity(Label = "BubbleTreeAppTest", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            base.OnCreate(bundle);
+            base.OnCreate(savedInstanceState);
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
     }
 
-    
-
-    
-        public class GenericButtonRenderer : Xamarin.Forms.Platform.Android.ButtonRenderer
-        {
-        }
-    
+    public class GenericButtonRenderer : ButtonRenderer
+    {
+        public GenericButtonRenderer(Context context) : base(context) { }
+    }
 }
 
