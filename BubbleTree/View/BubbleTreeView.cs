@@ -103,7 +103,7 @@ namespace BubbleTreeComponent.View
         public double LeafBorderWidth = 3.0;
         public int LeafBorderRadius = 5;
         public Color LeafBackgroundColor = Color.FromRgb(30, 120, 200);
-        public FileImageSource LeafImageSource= new FileImageSource();
+        public FileImageSource LeafImageSource = new FileImageSource();
         public Button.ButtonContentLayout LeafContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Left, 0);
 
 
@@ -205,8 +205,8 @@ namespace BubbleTreeComponent.View
             //PrepareBubbleContainer(rootNodesCount, DisplayNumberOfColumns);
 
         }
-        
-        
+
+
 
 
         private EventHandler<TextChangedEventArgs> OnTextChangedDoSearch()
@@ -323,23 +323,23 @@ namespace BubbleTreeComponent.View
                     WidthRequest = 100,
                     BorderColor = RootBorderColor,
                     BorderWidth = RootBorderWidth,
-                    BorderRadius = RootBorderRadius,
+                    CornerRadius = RootBorderRadius,
                     BackgroundColor = RootBackgroundColor,
                     Image = RootImageSource,
                     ContentLayout = RootContentLayout,
-                Command = new Command(() =>
-                {
-                    if (!SelectionModeEnabled)
+                    Command = new Command(() =>
                     {
-                        CurrentSearchFilterNode = node;
-                    }
-                    else
-                    {
-                        ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
-                        OnPropertyChanged(nameof(BubbleTree<T>.SelectedItem));
-                        Navigation.PopAsync();
-                    }
-                })
+                        if (!SelectionModeEnabled)
+                        {
+                            CurrentSearchFilterNode = node;
+                        }
+                        else
+                        {
+                            ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
+                            OnPropertyChanged(nameof(BubbleTree<T>.SelectedItem));
+                            Navigation.PopAsync();
+                        }
+                    })
                 }), columnIterator, rowIterator);
                 columnIterator++;
                 columnIterator %= numberOfColums;
@@ -385,25 +385,25 @@ namespace BubbleTreeComponent.View
                 WidthRequest = 100,
                 BorderColor = InternalBorderColor,
                 BorderWidth = InternalBorderWidth,
-                BorderRadius = InternalBorderRadius,
+                CornerRadius = InternalBorderRadius,
                 BackgroundColor = InternalBackgroundColor,
                 Image = InternalImageSource,
                 ContentLayout = InternalContentLayout,
 
 
-            Command = new Command(() =>
-            {
-                if (!SelectionModeEnabled)
+                Command = new Command(() =>
                 {
-                    CurrentSearchFilterNode = node;
-                }
-                else
-                {
-                    ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
-                    OnPropertyChanged(nameof(BubbleTree<T>.SelectedItem));
-                    Navigation.PopAsync();
-                }
-            })
+                    if (!SelectionModeEnabled)
+                    {
+                        CurrentSearchFilterNode = node;
+                    }
+                    else
+                    {
+                        ((BubbleTree<T>)BindingContext).SelectedItem = node.Data;
+                        OnPropertyChanged(nameof(BubbleTree<T>.SelectedItem));
+                        Navigation.PopAsync();
+                    }
+                })
             };
             if (node is RootNode<T>)
             {
@@ -411,7 +411,7 @@ namespace BubbleTreeComponent.View
                 bubbleButton.TextColor = RootTextColor;
                 bubbleButton.BorderColor = RootBorderColor;
                 bubbleButton.BorderWidth = RootBorderWidth;
-                bubbleButton.BorderRadius = RootBorderRadius;
+                bubbleButton.CornerRadius = RootBorderRadius;
                 bubbleButton.BackgroundColor = RootBackgroundColor;
                 bubbleButton.Image = RootImageSource;
                 bubbleButton.ContentLayout = RootContentLayout;
@@ -424,7 +424,7 @@ namespace BubbleTreeComponent.View
                 bubbleButton.TextColor = LeafTextColor;
                 bubbleButton.BorderColor = LeafBorderColor;
                 bubbleButton.BorderWidth = LeafBorderWidth;
-                bubbleButton.BorderRadius = LeafBorderRadius;
+                bubbleButton.CornerRadius = LeafBorderRadius;
                 bubbleButton.BackgroundColor = LeafBackgroundColor;
                 bubbleButton.Image = LeafImageSource;
                 bubbleButton.ContentLayout = LeafContentLayout;
@@ -480,10 +480,10 @@ namespace BubbleTreeComponent.View
             {
                 Setters =
                 {
-                    new Setter {Property = Button.BackgroundColorProperty, Value = Color.FromRgba(38, 80, 180,255)},
+                    new Setter {Property = BackgroundColorProperty, Value = Color.FromRgba(38, 80, 180,255)},
                     new Setter {Property = Button.TextColorProperty, Value = Color.FromRgb(255, 255,255)},
-                    new Setter {Property = Button.BorderRadiusProperty, Value = 0},
-                    new Setter {Property = Button.HeightRequestProperty, Value = 42},
+                    new Setter {Property = Button.CornerRadiusProperty, Value = 0},
+                    new Setter {Property = HeightRequestProperty, Value = 42},
 
                 }
             };
